@@ -5,10 +5,18 @@ from scipy import stats
 import pandas as pd
 import matplotlib.pyplot as plt
 
+#contoh mean / rata-rata
+# Data
+nilai_ujian = [80, 75, 65, 90, 100]
+# Hitung mean
+mean = np.mean(nilai_ujian)
+# Print mean
+print("Mean:", mean)
+
 jumlah_kucing = np.array([3, 2, 1, 1, 2, 3, 2, 1, 0, 2])
 
-print("mean", jumlah_kucing.mean())
-print("median", np.median(jumlah_kucing))
+print("nilai mean", jumlah_kucing.mean())
+print("nilai median", np.median(jumlah_kucing))
 
 mode_jumlah_kucing = stats.mode(jumlah_kucing)[0]
 print("mode -> nilai yang paling sering muncul :", mode_jumlah_kucing)
@@ -17,7 +25,7 @@ print("mode -> nilai yang paling sering muncul :", mode_jumlah_kucing)
 
 #Range
 range = jumlah_kucing.max() - jumlah_kucing.min()
-print("nilai range :", range)
+print("nilai range untuk melihat perbedaan antara\nnilai maksimum dan minimum :", range)
 
 #Interquartile Range
 iqr = np.percentile(jumlah_kucing, 75) - np.percentile(jumlah_kucing, 25)
@@ -50,3 +58,5 @@ df = pd.DataFrame(sample_data)
 df_corr = df.corr(numeric_only=True)
 print(df_corr)
 
+#Covariance
+df.cov(numeric_only=True)
