@@ -4,6 +4,8 @@ import numpy as np
 from scipy import stats
 import pandas as pd
 import matplotlib.pyplot as plt
+import sqlalchemy as sqla
+
 
 #contoh mean / rata-rata
 # Data
@@ -60,3 +62,26 @@ print(df_corr)
 
 #Covariance
 df.cov(numeric_only=True)
+
+##dara wrangling
+#csv_data = pd.read_csv("sales1.csv", delimiter=",")
+#df_read_excel = pd.read_excel("data.xlsx", sheet_name="Sheet1")
+#df_read_jso = pd.read_json("data.json")
+url = "https://www.fdic.gov/resources/resolutions/bank-failures/failed-bank-list"
+df_read_html = pd.read_html(url)[0]
+print(df_read_html)
+
+db = sqla.create_engine("sqlite:///mydata.sqlite")
+pd.read_sql_table("table_name", db)
+pd.read_sql_query("SELECT * FROM table_name", db)
+
+product_df = pd.read_csv("product.csv")
+orders_df = pd.read_csv("orders.csv")
+ 
+new_order_df = pd.merge(
+    left=product_df,
+    right=orders_df,
+    how="inner",
+    left_on="product_id",
+    right_on="product_id"
+)
