@@ -123,3 +123,45 @@ f = interpolate.interp1d(x, y, kind='linear')
 x_new = 2.5
 y_new = f(x_new)
 print(f"Hasil interpolasi pada x = {x_new} adalah y = {y_new}")
+
+data = [
+    (1, 20),
+    (2, 22),
+    (3, 24),
+    (4, 26),
+    (5, 28),
+    (6, 30),
+    (7, 32),
+    (8, 34),
+    (9, 36),
+    (10, 38),
+    ]
+def interpolate_quadratic(data, x):
+    """
+    Interpolasi kuadrat
+
+    Args:
+        data: Data titik
+        x: Nilai x yang akan diinterpolasi
+
+    Returns:
+        Nilai y yang diinterpolasi
+    """
+
+    # Mencari titik data terdekat
+    i = np.argmin(np.abs(data[:, 0] - x))
+
+    # Menghitung koefisien polinomial
+    a = (data[i + 1, 1] - data[i - 1, 1]) / (data[i + 1, 0] - data[i - 1, 0])
+    b = (data[i, 1] - a * data[i, 0])
+
+    # Menghitung nilai y
+    y = a * x ** 2 + b * x + data[i, 1]
+
+    return y
+
+
+# Mendapatkan nilai suhu udara di hari ke-11
+y = interpolate_quadratic(data, 11)
+
+print(y)
