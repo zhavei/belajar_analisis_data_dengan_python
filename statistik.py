@@ -70,6 +70,7 @@ df.cov(numeric_only=True)
 url = "https://www.fdic.gov/resources/resolutions/bank-failures/failed-bank-list"
 df_read_html = pd.read_html(url)[0]
 print(df_read_html)
+df.duplicated().sum()
 
 db = sqla.create_engine("sqlite:///mydata.sqlite")
 pd.read_sql_table("table_name", db)
@@ -85,3 +86,40 @@ new_order_df = pd.merge(
     left_on="product_id",
     right_on="product_id"
 )
+
+#Missing value (sum missing value)
+product_df.isnull().sum()
+
+#outlier menggunakan IQR method
+q25, q75 = np.percentile(data, 25), np.percentile(data, 75)
+iqr = q75 - q25
+cut_off = iqr * 1.5
+minimum, maximum = q25 - cut_off, q75 + cut_off
+ 
+outliers = [x for x in data if x < minimum or x > maximum]
+
+# droping missing value
+products_df = pd.read_csv("product.csv")
+products_df.dropna(axis=0, inplace=True)
+
+df_ = pd.DataFrame({"name": ['Alfred', 'Batman', 'Catwoman'],
+                   "toy": [np.nan, 'Batmobile', 'Bullwhip'],
+                   "born": [pd.NaT, pd.Timestamp("1940-04-25"),
+                            pd.NaT]})
+
+df_.dropna(axis='columns')
+
+# Interpolation interpolasi 
+# interpolasi sering digunakan untuk 
+# mengisi nilai yang hilang atau tidak tercatat dalam data
+
+from scipy import interpolate
+# Data yang sudah diketahui
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([10, 15, 5, 20, 8])
+# Membuat fungsi interpolasi dengan metode linear
+f = interpolate.interp1d(x, y, kind='linear')
+# Menghitung nilai yang diinterpolasi
+x_new = 2.5
+y_new = f(x_new)
+print(f"Hasil interpolasi pada x = {x_new} adalah y = {y_new}")
